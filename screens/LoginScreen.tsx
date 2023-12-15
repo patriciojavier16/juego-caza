@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }: any) {
 
   return (
 
-      <View style={styles.container}>
+      <ImageBackground source={require("../assets/images/fondo.jpg")} style={styles.container}>
         <Text style={{ fontSize: 30, marginBottom: 20, color: 'black' }}>Login</Text>
 
         <TextInput
@@ -55,11 +55,11 @@ export default function LoginScreen({ navigation }: any) {
           <Button title='Ingresar' onPress={() => login()} color='#4CAF50' />
           <Button
             title='Registrate'
-            onPress={() => navigation.navigate('Registro')}
+            onPress={() => navigation.navigate('Register')}
             color='#4CAF50'
           />
         </View>
-      </View>
+      </ImageBackground>
   );
 }
 

@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TextInput, Alert, Button } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Alert, Button, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../config/Config';
+import { auth } from '../components/Config';
 
 
 export default function RegisterScreen({ navigation }: any) {
@@ -31,7 +31,7 @@ export default function RegisterScreen({ navigation }: any) {
     }
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require("../assets/images/fondoRegistro.jpg")} style={styles.container}>
             <Text style={styles.title}>Registro</Text>
             <TextInput
                 style={styles.input}
@@ -59,8 +59,8 @@ export default function RegisterScreen({ navigation }: any) {
                 placeholder='Ingrese su contraseña'
                 onChangeText={(text) => (setContrasenia(text))}
             />
-            <Button title='Registro' onPress={() => registro()} />
-        </View>
+            <Button title='Registro' onPress={() => registro()} color='#4CAF50'/>
+        </ImageBackground>
     )
 }
 
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: '#333', // Color del texto
+        color: 'blue', // Color del texto
     },
     input: {
         backgroundColor: '#fff',
@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         padding: 10,
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderWidth: 2,
+        borderColor: '#b0c2f2',
+        color: 'black'
     },
 })
