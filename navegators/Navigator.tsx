@@ -17,6 +17,7 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+
 function MyStack() {
   return (
       <Stack.Navigator initialRouteName="Login">

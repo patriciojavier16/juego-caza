@@ -1,35 +1,65 @@
+import { Alert, Button, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../components/Config';
 
 export default function LoginScreen({ navigation }: any) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const handleLogin = () => {
-    console.log(`Inicio de sesión: Correo: ${email}, Contraseña: ${password}`);
-    navigation.navigate('HOME');
-  };
+  const [correo, setCorreo] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
+
+  function login() {
+    signInWithEmailAndPassword(auth, correo, contrasenia)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('Acceso correcto');
+        navigation.navigate('HOME');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Acceso denegado');
+        console.log(errorCode);
+        console.log(errorMessage);
+
+        if (errorCode === 'auth/missing-password') {
+          Alert.alert('Error', 'No puede ingresar una contraseña en blanco');
+        } else if (errorCode === 'auth/wrong-password') {
+          Alert.alert('Error', 'Error en las credenciales');
+        } else {
+          Alert.alert('Error', 'Comuníquese con el admin');
+        }
+      });
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
-      <View style={styles.formContainer}>
+
+      <View style={styles.container}>
+        <Text style={{ fontSize: 30, marginBottom: 20, color: 'black' }}>Login</Text>
+
         <TextInput
           style={styles.input}
-          placeholder="Correo Electrónico"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          placeholder='Ingrese email'
+          onChangeText={(texto) => setCorreo(texto)}
         />
+
         <TextInput
           style={styles.input}
-          placeholder="Contraseña"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          placeholder='Ingrese su contraseña'
+          onChangeText={(texto) => setContrasenia(texto)}
+          secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
-        </TouchableOpacity>
+
+        <View style={styles.buttonContainer}>
+          <Button title='Ingresar' onPress={() => login()} color='#4CAF50' />
+          <Button
+            title='Registrate'
+            onPress={() => navigation.navigate('Registro')}
+            color='#4CAF50'
+          />
+        </View>
       </View>
-    </View>
   );
 }
 
@@ -38,39 +68,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  formContainer: {
-    width: '80%',
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-    alignItems: 'center',
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
     height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
     marginBottom: 10,
     paddingLeft: 10,
-    width: '100%',
+    paddingRight: 10,
+    width: '80%',
+    backgroundColor: 'white',
+    color: 'black',
   },
-  loginButton: {
-    backgroundColor: '#3498db',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    width: '100%',
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 10,
   },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
-  },
+
 });
