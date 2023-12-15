@@ -4,8 +4,8 @@ import GameImage from '../components/GameImage'
 
 export default function GameScreen() {
   const imagenes = [
-    { nombre: 'Image1', url: 'https://proyectosbeta.net/wp-content/uploads/2013/04/WallPapers_Insectos01.jpg'},
-    { nombre: 'Image2', url: 'https://blog.foto24.com/wp-content/uploads/2014/03/cabecera-672x372-fotos-insectos-inspiracion.jpg'},
+    { nombre: 'Image1', localPath: require('../assets/images/abeja.png')},
+    { nombre: 'Image2', localPath: require('../assets/images/mariquiota.png')},
   ]
   return (
     <View style={styles.container}>
