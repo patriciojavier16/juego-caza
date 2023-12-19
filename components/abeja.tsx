@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, Dimensions, TouchableOpacity, ImageSourcePropType } from 'react-native';
 
 interface AbejaProps {
-  presionar: () => void;
   imagenNormal: ImageSourcePropType;
   imagenPresionada: ImageSourcePropType;
+  presionar: () => void;
 }
 
 const Abeja: React.FC<AbejaProps> = (props) => {
   const [posicion, setPosicion] = useState({ x: 0, y: 0 });
   const [imageSource, setImageSource] = useState(props.imagenNormal);
+  const [isPressed, setIsPressed] = useState(false);
 
   const changeImage = () => {
     setImageSource(props.imagenPresionada);
@@ -19,8 +20,8 @@ const Abeja: React.FC<AbejaProps> = (props) => {
   };
 
   const moverAbeja = () => {
-    const MAX_X = Dimensions.get('window').width;
-    const MAX_Y = Dimensions.get('window').height;
+    const MAX_X = Dimensions.get('window').width - 70;
+    const MAX_Y = Dimensions.get('window').height - 70;
 
     const randomX = Math.floor(Math.random() * MAX_X);
     const randomY = Math.floor(Math.random() * MAX_Y);
@@ -37,7 +38,6 @@ const Abeja: React.FC<AbejaProps> = (props) => {
   }, []);
 
   const compuesta = () => {
-    moverAbeja();
     props.presionar();
     changeImage();
   };
