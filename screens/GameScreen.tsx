@@ -1,22 +1,19 @@
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
-import React from 'react'
-import GameImage from '../components/GameImage'
+import React from 'react';
+import { StyleSheet, View, ImageBackground } from 'react-native';
+import Abeja from '../components/abeja';
 
 export default function GameScreen() {
-  const imagenes = [
-    { nombre: 'Image1', localPath: require('../assets/images/abeja.png') },
-    { nombre: 'Image2', localPath: require('../assets/images/mariquiota.png') },
-  ]
   return (
-    <ImageBackground source={require("../assets/images/fondoJuego.png")} style={styles.container}>
+    <ImageBackground source={require('../assets/images/fondoJuego.png')} style={styles.container}>
       <View style={{ height: 500 }}>
-        <Image style={styles.imgAbeja} source={require("../assets/images/abeja.png")} />{
-          <Image style={styles.imgAbeja} source={require("../assets/images/mariquiota.png")} />
-        }
-
+        <Abeja
+          presionar={() => console.log('Presionado')}
+          imagenNormal={require('../assets/images/abeja.png')}
+          imagenPresionada={require('../assets/images/abeja2.jpg')}
+        />
       </View>
     </ImageBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -24,15 +21,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor: '#2c3e79'
   },
-  imgAbeja: {
-    width: 70,
-    height: 70,
-    margin: 50
-  },
-  imgMariq: {
-    width: 70,
-    height: 70
-  }
-})
+});
