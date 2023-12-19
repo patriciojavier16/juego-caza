@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, TextInput, Alert, Button, ImageBackground } fro
 import React, { useState } from 'react'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../components/Config';
+import { ref, set, onValue, update, remove } from "firebase/database";
+import { db } from '../components/Config';
 
 
 export default function RegisterScreen({ navigation }: any) {
@@ -11,6 +13,27 @@ export default function RegisterScreen({ navigation }: any) {
     const [edad, setEdad] = useState('')
     const [genero, setGenero] = useState('')
     const [contrasenia, setContrasenia] = useState('')
+
+    function guardar(correo: String, nombre: String, edad: String, genero: String, contrasenia: String) {
+        //const db = getDatabase();
+        set(ref(db, 'usuarios/' + nombre), {
+            email: correo,
+            age: edad,
+            gender: genero,
+            password: contrasenia,
+        });
+
+        setCorreo('')
+        setNombre('')
+        setEdad('')
+        setGenero('')
+        setContrasenia('')
+    }
+    function compuesta() {
+        guardar(correo, nombre, edad, genero, contrasenia)
+        registro()
+    }
+
 
     function registro() {
         createUserWithEmailAndPassword(auth, correo, contrasenia)
@@ -59,7 +82,7 @@ export default function RegisterScreen({ navigation }: any) {
                 placeholder='Ingrese su contraseña'
                 onChangeText={(text) => (setContrasenia(text))}
             />
-            <Button title='Registro' onPress={() => registro()} color='#4CAF50'/>
+            <Button title='Registro' onPress={() => compuesta()} color='#4CAF50' />
         </ImageBackground>
     )
 }

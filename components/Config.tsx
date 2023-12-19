@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
 import { getStorage } from "firebase/storage";
+import { getDatabase } from 'firebase/database'
+
 
 ///SOLUCIÓN DE WARNING
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
@@ -26,3 +28,4 @@ export const auth = initializeAuth(app, {
 });
 
 export const storage = getStorage(app)
+export const db = getDatabase(app)
