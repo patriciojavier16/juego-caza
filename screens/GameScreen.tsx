@@ -7,6 +7,7 @@ export default function GameScreen() {
   const [contador, setContador] = useState(0);
   const [abejaCazada, setAbejaCazada] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [generarAbejas, setGenerarAbejas] = useState(true);
 
   useEffect(() => {
     const temporizador = setInterval(() => {
@@ -17,16 +18,19 @@ export default function GameScreen() {
         return tiempoAnterior - 1;
       });
     }, 1000);
-  }, []);
+
+    return () => {
+      clearInterval(temporizador);
+    };
+  }, [generarAbejas]);
 
   useEffect(() => {
     if (tiempo === 0) {
+      setGenerarAbejas(false);
       setAbejaCazada(contador);
       setModalVisible(true);
-      setTiempo(10);
-      setContador(0);
     }
-  }, [tiempo]);
+  }, [tiempo, contador]);
 
   function contar() {
     setContador(contador + 1);
@@ -36,18 +40,21 @@ export default function GameScreen() {
     setModalVisible(false);
     setTiempo(10);
     setContador(0);
+    setGenerarAbejas(true); 
   }
 
   return (
     <ImageBackground source={require('../assets/images/fondoJuego.png')} style={styles.container}>
       <View style={{ height: 500 }}>
-        <Abeja
-          imagenNormal={require('../assets/images/abeja.png')}
-          imagenPresionada={require('../assets/images/abeja2.jpg')}
-          presionar={contar}
-        />
+        {generarAbejas && (
+          <Abeja
+            imagenNormal={require('../assets/images/abeja.png')}
+            imagenPresionada={require('../assets/images/abeja2.jpg')}
+            presionar={contar}
+          />
+        )}
       </View>
-      <Text style={styles.time}>{tiempo}</Text>
+      <Text style={styles.time}>{tiempo > 0 ? tiempo : 0}</Text>
 
       <Modal
         visible={isModalVisible}
