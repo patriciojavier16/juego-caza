@@ -3,6 +3,9 @@ import { StyleSheet, View, ImageBackground, Text, TouchableOpacity, Modal } from
 import Abeja from '../components/abeja';
 import { ref, set, onValue, update, remove } from "firebase/database";
 import { db } from '../components/Config';
+import { RouteProp } from '@react-navigation/native';
+
+
 
 export default function GameScreen() {
   const [tiempo, setTiempo] = useState(10);
@@ -11,9 +14,10 @@ export default function GameScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [generarAbejas, setGenerarAbejas] = useState(true);
   const [nombre, setNombre] = useState('')
-  const [lista, setlista] = useState([])
+  //const [nombre, setNombre] = useState(route.params.userName || '');
+  
 
-
+  
   useEffect(() => {
     const temporizador = setInterval(() => {
       setTiempo((tiempoAnterior) => {
@@ -83,7 +87,7 @@ export default function GameScreen() {
       >
         <View style={styles.modal}>
           <Text style={styles.txtFin}>FIN DE LA PARTIDA...!!!</Text>
-          <Text style={styles.txtResultado}>Usted ha cazado: {abejaCazada} abejas</Text>
+          <Text style={styles.txtResultado}>{nombre}Usted ha cazado: {abejaCazada} abejas</Text>
 
           <TouchableOpacity style={styles.btn} onPress={() => reiniciar()}>
             <Text style={styles.txtBtn}>Reiniciar</Text>

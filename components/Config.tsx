@@ -2,6 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
 import { getStorage } from "firebase/storage";
 import { getDatabase } from 'firebase/database'
+import { ref, set,get, onValue, update, remove } from "firebase/database";
+
 
 
 ///SOLUCIÓN DE WARNING
@@ -29,3 +31,14 @@ export const auth = initializeAuth(app, {
 
 export const storage = getStorage(app)
 export const db = getDatabase(app)
+
+export const getUserNameByUid = async (uid:any) => {
+  const userRef = ref(db, `users/${uid}/nombre`);
+  const snapshot = await get(userRef);
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return null; // El usuario no tiene un nombre registrado
+  }
+
+};

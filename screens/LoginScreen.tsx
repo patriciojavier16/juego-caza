@@ -8,6 +8,7 @@ import { auth } from '../components/Config';
 export default function LoginScreen({ navigation }: any) {
   const [correo, setCorreo] = useState('');
   const [contrasenia, setContrasenia] = useState('');
+  const [nombre, setnombre] = useState('')
 
   function login() {
     signInWithEmailAndPassword(auth, correo, contrasenia)
@@ -15,7 +16,7 @@ export default function LoginScreen({ navigation }: any) {
         const user = userCredential.user;
         console.log(user.uid)
         console.log('Acceso correcto');
-        navigation.navigate('HOME', { userId: user.uid });
+        navigation.navigate('HOME', { userId: user.uid, username: nombre });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -36,31 +37,31 @@ export default function LoginScreen({ navigation }: any) {
 
   return (
 
-      <ImageBackground source={require("../assets/images/fondo.jpg")} style={styles.container}>
-        <Text style={{ fontSize: 30, marginBottom: 20, color: 'black' }}>Login</Text>
+    <ImageBackground source={require("../assets/images/fondo.jpg")} style={styles.container}>
+      <Text style={{ fontSize: 30, marginBottom: 20, color: 'black' }}>Login</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder='Ingrese email'
-          onChangeText={(texto) => setCorreo(texto)}
+      <TextInput
+        style={styles.input}
+        placeholder='Ingrese email'
+        onChangeText={(texto) => setCorreo(texto)}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder='Ingrese su contraseña'
+        onChangeText={(texto) => setContrasenia(texto)}
+        secureTextEntry={true}
+      />
+
+      <View style={styles.buttonContainer}>
+        <Button title='Ingresar' onPress={() => login()} color='#4CAF50' />
+        <Button
+          title='Registrate'
+          onPress={() => navigation.navigate('Register')}
+          color='#4CAF50'
         />
-
-        <TextInput
-          style={styles.input}
-          placeholder='Ingrese su contraseña'
-          onChangeText={(texto) => setContrasenia(texto)}
-          secureTextEntry={true}
-        />
-
-        <View style={styles.buttonContainer}>
-          <Button title='Ingresar' onPress={() => login()} color='#4CAF50' />
-          <Button
-            title='Registrate'
-            onPress={() => navigation.navigate('Register')}
-            color='#4CAF50'
-          />
-        </View>
-      </ImageBackground>
+      </View>
+    </ImageBackground>
   );
 }
 
