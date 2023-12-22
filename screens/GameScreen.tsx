@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ImageBackground, Text, TouchableOpacity, Modal } from 'react-native';
 import Abeja from '../components/abeja';
+import { ref, set, onValue, update, remove } from "firebase/database";
+import { db } from '../components/Config';
 
 export default function GameScreen() {
   const [tiempo, setTiempo] = useState(10);
@@ -8,6 +10,9 @@ export default function GameScreen() {
   const [abejaCazada, setAbejaCazada] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
   const [generarAbejas, setGenerarAbejas] = useState(true);
+  const [nombre, setNombre] = useState('')
+  const [lista, setlista] = useState([])
+
 
   useEffect(() => {
     const temporizador = setInterval(() => {
@@ -40,7 +45,21 @@ export default function GameScreen() {
     setModalVisible(false);
     setTiempo(10);
     setContador(0);
-    setGenerarAbejas(true); 
+    setGenerarAbejas(true);
+  }
+  function guardar(nombre: String, contador: Number) {
+    //const db = getDatabase();
+    set(ref(db, 'jugadores/' + nombre), {
+      username: nombre,
+      score: contador,
+    });
+
+    setNombre('')
+    setContador(0)
+  }
+  function compuesta() {
+    guardar(nombre, contador)
+    contar()
   }
 
   return (
@@ -68,6 +87,9 @@ export default function GameScreen() {
 
           <TouchableOpacity style={styles.btn} onPress={() => reiniciar()}>
             <Text style={styles.txtBtn}>Reiniciar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn} onPress={() => compuesta()}>
+            <Text style={styles.txtBtn}>Guardar</Text>
           </TouchableOpacity>
         </View>
       </Modal>

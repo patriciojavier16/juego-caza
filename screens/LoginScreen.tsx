@@ -13,8 +13,9 @@ export default function LoginScreen({ navigation }: any) {
     signInWithEmailAndPassword(auth, correo, contrasenia)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user.uid)
         console.log('Acceso correcto');
-        navigation.navigate('HOME');
+        navigation.navigate('HOME', { userId: user.uid });
       })
       .catch((error) => {
         const errorCode = error.code;

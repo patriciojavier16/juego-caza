@@ -13,10 +13,14 @@ export default function RegisterScreen({ navigation }: any) {
     const [edad, setEdad] = useState('')
     const [genero, setGenero] = useState('')
     const [contrasenia, setContrasenia] = useState('')
+    const [credenciales, setcredenciales] = useState('')
 
-    function guardar(correo: String, nombre: String, edad: String, genero: String, contrasenia: String) {
+    function guardar(credenciales: String, correo: String, nombre: String, edad: String, genero: String, contrasenia: String) {
         //const db = getDatabase();
-        set(ref(db, 'usuarios/' + nombre), {
+        console.log(credenciales)
+
+        set(ref(db, 'usuarios/' + credenciales), {
+
             email: correo,
             age: edad,
             gender: genero,
@@ -30,8 +34,8 @@ export default function RegisterScreen({ navigation }: any) {
         setContrasenia('')
     }
     function compuesta() {
-        guardar(correo, nombre, edad, genero, contrasenia)
         registro()
+        //guardar(credenciales, correo, nombre, edad, genero, contrasenia)
     }
 
 
@@ -42,6 +46,10 @@ export default function RegisterScreen({ navigation }: any) {
                 const user = userCredential.user;
                 console.log("Usuario registrado")
                 navigation.navigate('Login')
+                setcredenciales(user)
+                console.log(user)
+                console.log(credenciales)
+                guardar(user.uid, correo, nombre, edad, genero, contrasenia)
                 // ...
             })
             .catch((error) => {
