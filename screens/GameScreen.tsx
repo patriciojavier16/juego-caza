@@ -72,7 +72,7 @@ export default function GameScreen() {
         {generarAbejas && (
           <Abeja
             imagenNormal={require('../assets/images/abeja.png')}
-            imagenPresionada={require('../assets/images/abeja2.jpg')}
+            imagenPresionada={require('../assets/images/abeja2.png')}
             presionar={contar}
           />
         )}
